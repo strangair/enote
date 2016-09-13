@@ -5,23 +5,29 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 import logging
 
+from datetime import datetime, timedelta
+
+# Set encoding
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+# Global block
+chat_history = 'test.tmp'
 
 def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
 
 def record(bot, update):
-	f = open('test.tmp', 'w')
-	message = update.message.text
+    f = open(chat_history, 'w')
+    message = update.message.text
 	message = message.split(' ', 1)[1]	
 	f.write(message)
 
 	f.close()
 
 def digest(bot, update):
-	f = open('test.tmp', 'r')
+	f = open(chat_history, 'r')
 
 #	if args == False:
 	bot.sendMessage(chat_id=update.message.chat_id, text=f.readline())
