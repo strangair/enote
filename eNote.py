@@ -26,10 +26,11 @@ def xyu(bot, update):
 def help(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="""
 	Command list:
-	/xyu            Пизда
+	/хуй            Пизда
 	/help           Это сообщение
 	/пиши <text>    Запись текста в буфер
 	/чокаво         Чтение текста из буфера
+	/сосисочки      Сосисочки
 	""")
 
 def record(bot, update):
@@ -55,6 +56,9 @@ def digest(bot, update):
             if data['date'] == today:
                 bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
+def sausages(bot, update):
+    bot.sendMessage(chat_id=update.message.chat_id, photo='giphy.gif')
+
 def main():
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
 
@@ -65,6 +69,7 @@ def main():
     dp.add_handler(CommandHandler('пиши', record))
     dp.add_handler(CommandHandler('чокаво', digest))
     dp.add_handler(CommandHandler('help', help))
+    dp.add_handler(CommandHandler('сосисочки', sausages))
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
