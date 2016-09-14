@@ -43,7 +43,7 @@ def record(bot, update):
     f.close()
 
 
-def digest(bot, update, **args):
+def digest(bot, update, args):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
