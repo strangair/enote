@@ -30,7 +30,7 @@ def record(bot, update):
 
     data = {
         'date': today,
-        'text'': message
+        'text': message
     }
 
     # Convert to JSON & append to the file
