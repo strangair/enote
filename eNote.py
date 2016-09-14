@@ -24,7 +24,13 @@ def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
 
 def help(bot, update):
-	bot.sendMessage(chat_id=update.message.chat_id, text="Command list:\n\t/xyu\n\t/help\n\t/пиши\n\t/чокаво")
+	bot.sendMessage(chat_id=update.message.chat_id, text="""
+	Command list:
+	/xyu            Пизда
+	/help           Это сообщение
+	/пиши <text>    Запись текста в буфер
+	/чокаво         Чтение текста из буфера
+	""")
 
 def record(bot, update):
     f = open(chat_history, 'w')
