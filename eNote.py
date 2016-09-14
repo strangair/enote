@@ -51,7 +51,9 @@ def digest(bot, update):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
-            bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+
+            if data['date'] == today:
+                bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 def main():
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
