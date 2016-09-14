@@ -33,7 +33,6 @@ def help(bot, update):
 	""")
 
 def record(bot, update):
-    f = open(chat_history, 'w')
 
     message = update.message.text
     message = message.split(' ', 1)[1]
@@ -48,25 +47,28 @@ def record(bot, update):
     f.write(json.dumps(data, ensure_ascii=False, encoding="utf-8") + '\n')
     f.close()
 
-
 def digest(bot, update):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
             bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
-updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
-dispatcher = updater.dispatcher
+def main():
+    updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+    dp = updater.dispatcher
 
-dispatcher.add_handler(CommandHandler('хуй', xyu))
-dispatcher.add_handler(CommandHandler('пиши', record))
-dispatcher.add_handler(CommandHandler('чокаво', digest))
-dispatcher.add_handler(CommandHandler('help', help))
+    # Add commands
+    dp.add_handler(CommandHandler('хуй', xyu))
+    dp.add_handler(CommandHandler('пиши', record))
+    dp.add_handler(CommandHandler('чокаво', digest))
+    dp.add_handler(CommandHandler('help', help))
 
-updater.start_polling()
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-updater.idle()
+    updater.start_polling()
 
+    updater.idle()
 
+if __name__ == '__main__':
+    main()
