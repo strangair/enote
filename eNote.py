@@ -36,7 +36,7 @@ def record(bot, update):
 
     # Convert to JSON & append to the file
     f = open(chat_history, 'a+')
-    f.write(json.dumps(data) + '\n', encoding="utf-8")
+    f.write(json.dumps(data, ensure_ascii=False, encoding="utf-8") + '\n')
     f.close()
 
 
