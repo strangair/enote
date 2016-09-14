@@ -43,16 +43,11 @@ def record(bot, update):
     f.close()
 
 
-def digest(bot, update, args):
+def digest(bot, update):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
-            if str(args[0]) == 'вчера':
-                if data['date'] == yesterday:
-                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
-            else:
-                if data['date'] == today:
-                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
 dispatcher = updater.dispatcher
