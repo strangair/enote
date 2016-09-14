@@ -29,8 +29,8 @@ def record(bot, update):
     message = message.split(' ', 1)[1]
 
     data = {
-        date: today,
-        text: message
+        'date': today,
+        'text'': message
     }
 
     # Convert to JSON & append to the file
@@ -39,7 +39,7 @@ def record(bot, update):
     f.close()
 
 
-def digest(bot, update, args):
+def digest(bot, update, args**):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
