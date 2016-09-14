@@ -23,6 +23,9 @@ yesterday = yesterday.strftime("%Y-%m-%d")
 def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
 
+def help(bot, update):
+	bot.sendMessage(chat_id=update.message.chat_id, text="Command list:\n\t/xyu\n\t/help\n\t/пиши\n\t/чокаво")
+
 def record(bot, update):
     f = open(chat_history, 'w')
 
@@ -40,11 +43,11 @@ def record(bot, update):
     f.close()
 
 
-def digest(bot, update, **args):
+def digest(bot, update):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
-            if args[0] == 'вчера':
+            if update[0] == 'вчера':
                 if data['date'] == yesterday:
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
             else:
@@ -59,6 +62,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 dispatcher.add_handler(CommandHandler('хуй', xyu))
 dispatcher.add_handler(CommandHandler('пиши', record))
 dispatcher.add_handler(CommandHandler('чокаво', digest))
+dispatcher.add_handler(CommandHandler('help', help))
 
 updater.start_polling()
 
