@@ -57,7 +57,7 @@ def digest(bot, update):
                 bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 def sausages(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
+#    bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
     bot.sendDocument(chat_id=update.message.chat_id, document='https://media.giphy.com/media/JVqeFxl3Qo8/giphy.gif')
 
 def main():
