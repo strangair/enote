@@ -57,7 +57,7 @@ def digest(bot, update):
                 bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 def sausages(bot, update):
-    bot.sendPhoto(chat_id=update.message.chat_id, photo='giphy.gif')
+    bot.sendDocument(chat_id=update.message.chat_id, document='giphy.gif')
 
 def main():
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
