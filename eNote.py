@@ -44,11 +44,11 @@ def digest(bot, update, **args):
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
-            if args[0] == 'сегодня' or args is False:
-                if data['date'] == today:
-                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
-            elif args[0] == 'вчера':
+            if args[0] == 'вчера':
                 if data['date'] == yesterday:
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            else:
+                if data['date'] == today:
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
