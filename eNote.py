@@ -26,7 +26,7 @@ def record(bot, update):
     f = open(chat_history, 'w')
 
     message = update.message.text
-	message = message.split(' ', 1)[1]
+    message = message.split(' ', 1)[1]
 
     data = {
         date: today,
@@ -46,7 +46,7 @@ def digest(bot, update, args):
             if args[0] == 'сегодня' or args == False:
                 if data['date'] == today:
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
-            elifif args[0] == 'вчера':
+            elif args[0] == 'вчера':
                 if data['date'] == yesterday:
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
