@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # coding: utf-8
 
-from telegram.ext import Updater
-from telegram.ext import CommandHandler
+from telegram.ext import Updater, InlineQueryHandler, CommandHandler, \
+    InlineQueryResultArticle, ParseMode, InputTextMessageContent
 import logging
 import json
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 # Set encoding
 import sys
@@ -62,6 +63,17 @@ def sausage(bot, update):
 def carrot(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='http://i.imgur.com/KwxaJWq.gif')
 
+def inlinequery(bot, update):
+    query = update.inline_query.query
+    results = list()
+
+    results.append(InlineQueryResultArticle(id=uuid4(),
+                                            title="тест",
+                                            input_message_content=InputTextMessageContent(
+                                                query.upper())))
+
+    bot.answerInlineQuery(update.inline_query.id, results=results)
+
 def main():
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
 
@@ -74,6 +86,8 @@ def main():
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('сосисочки', sausage))
     dp.add_handler(CommandHandler('морква', carrot))
+
+    dp.add_handler(InlineQueryHandler(inlinequery))
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
