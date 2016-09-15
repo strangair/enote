@@ -20,6 +20,9 @@ today = today.strftime("%Y-%m-%d")
 yesterday = datetime.now() - timedelta(days=1)
 yesterday = yesterday.strftime("%Y-%m-%d")
 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
 
@@ -69,8 +72,7 @@ def inlinequery(bot, update):
 
     results.append(InlineQueryResultArticle(id=uuid4(),
                                             title="тест",
-                                            input_message_content=InputTextMessageContent(
-                                                query.upper())))
+                                            input_message_content=InputTextMessageContent))
 
     bot.answerInlineQuery(update.inline_query.id, results=results)
 
@@ -89,7 +91,7 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+    dp.add_error_handler(info)
 
     updater.start_polling()
 
