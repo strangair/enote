@@ -72,8 +72,9 @@ def inlinequery(bot, update):
     results = list()
 
     results.append(InlineQueryResultArticle(id=uuid4(),
-                                            title="тест",
+                                            title="test",
                                             input_message_content=InputTextMessageContent))
+
 
     bot.answerInlineQuery(update.inline_query.id, results=results)
 
