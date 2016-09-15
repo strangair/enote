@@ -21,8 +21,9 @@ today = today.strftime("%Y-%m-%d")
 yesterday = datetime.now() - timedelta(days=1)
 yesterday = yesterday.strftime("%Y-%m-%d")
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
 
 def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
@@ -75,8 +76,10 @@ def inlinequery(bot, update):
                                             title="test",
                                             input_message_content=InputTextMessageContent))
 
-
     bot.answerInlineQuery(update.inline_query.id, results=results)
+
+def error(bot, update, error):
+    logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def main():
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
@@ -93,7 +96,7 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-#    dp.add_error_handler(error)
+    dp.add_error_handler(error)
 
     updater.start_polling()
 
