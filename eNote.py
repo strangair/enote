@@ -7,6 +7,7 @@ import logging
 import json
 from datetime import datetime, timedelta
 from uuid import uuid4
+import re
 
 # Set encoding
 import sys
@@ -91,7 +92,7 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-    dp.add_error_handler(error)
+#    dp.add_error_handler(error)
 
     updater.start_polling()
 
