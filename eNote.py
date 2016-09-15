@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
 
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler, \
-    InlineQueryResultArticle, ParseMode, InputTextMessageContent
+from telegram.ext import Updater, InlineQueryHandler, CommandHandler
+from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
 import logging
 import json
 from datetime import datetime, timedelta
