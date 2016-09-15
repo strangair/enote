@@ -91,7 +91,7 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-    dp.add_error_handler(info)
+    dp.add_error_handler(error)
 
     updater.start_polling()
 
