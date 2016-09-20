@@ -15,7 +15,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # Global block
-chat_history = 'chat_history.txt'
+chat_history = '/home/ec2-user/enote/chat_history.txt'
 today = datetime.now()
 today = today.strftime("%Y-%m-%d")
 yesterday = datetime.now() - timedelta(days=1)
