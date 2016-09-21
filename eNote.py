@@ -16,7 +16,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # Global block
-workdir = '/home/ec2-user/enote/'
 chat_history = '/home/ec2-user/enote/chat_history.txt'
 log_file = '/home/ec2-user/enote/enote.log'
 today = datetime.now()
@@ -102,7 +101,7 @@ def main():
     dp.add_error_handler(error)
 
     # Daemonize
-    with daemon.DaemonContext(chroot_directory=workdir):
+    with daemon.DaemonContext():
         updater.start_polling()
         updater.idle()
 
