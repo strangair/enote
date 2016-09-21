@@ -5,6 +5,7 @@ from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
 import logging
 import json
+import daemon, time
 from datetime import datetime, timedelta
 from uuid import uuid4
 import re
@@ -15,6 +16,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # Global block
+workdir = '/home/ec2-user/enote/'
 chat_history = '/home/ec2-user/enote/chat_history.txt'
 log_file = '/home/ec2-user/enote/enote.log'
 today = datetime.now()
@@ -99,9 +101,10 @@ def main():
 
     dp.add_error_handler(error)
 
-    updater.start_polling()
-
-    updater.idle()
+    # Daemonize
+    with daemon.DaemonContext(chroot_directory=workdir):
+        updater.start_polling()
+        updater.idle()
 
 if __name__ == '__main__':
     main()
