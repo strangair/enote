@@ -59,11 +59,9 @@ def digest(bot, update):
     command = update.message.textmessage = update.message.text
     try:
         command = command.split(' ', 1)[1]
+        command = command.split(' ', 1)[0]
     except IndexError:
-        if datestamp == datetime.date(datetime.now()):
-            bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
-
-    command = command.split(' ', 1)[0]
+        command = 'сегодня'
 
     with open(chat_history) as f:
         for line in f:
@@ -78,6 +76,9 @@ def digest(bot, update):
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
             elif command == 'месяц':
                 if datestamp > datetime.date((datetime.now() - timedelta(days=31))):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            else:
+                if datestamp == datetime.date(datetime.now()):
                     bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 def sausage(bot, update):
