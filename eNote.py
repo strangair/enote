@@ -18,6 +18,7 @@ sys.setdefaultencoding('utf-8')
 # Global block
 chat_history = '/home/ec2-user/enote/chat_history.txt'
 log_file = '/home/ec2-user/enote/enote.log'
+
 today = datetime.now()
 today = today.strftime("%Y-%m-%d")
 yesterday = datetime.now() - timedelta(days=1)
@@ -33,12 +34,12 @@ def xyu(bot, update):
 def help(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="""
 	Command list:
-	/хуй            Пизда
-	/help           Это сообщение
-	/пиши <text>    Запись текста в буфер
-	/чокаво         Чтение текста из буфера
-	/сосисочки      Сосисочки
-	/морква         Морква
+	/хуй                                    Пизда
+	/help                                   Это сообщение
+	/запомни <text>                         Запись текста в буфер
+	/чокаво <вчера>/<неделя>/<месяц>        Чтение текста из буфера
+	/сосисочки                              Сосисочки
+	/морква                                 Морква
 	""")
 
 def record(bot, update):
@@ -57,11 +58,26 @@ def record(bot, update):
     f.close()
 
 def digest(bot, update):
+    command = update.message.textmessage = update.message.text
+    command = command.split(' ', 1)[0]
+
     with open(chat_history) as f:
         for line in f:
             data = json.loads(line)
-            if data['date'] == today:
-                bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            datestamp = datetime.date(datetime.strptime(data['date'], "%Y-%m-%d"))
+
+            if command == 'вчера':
+                if datestamp > datetime.date((datetime.now() - timedelta(days=1))):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            elif command == 'неделя':
+                if datestamp > datetime.date((datetime.now() - timedelta(days=7))):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            elif command == 'месяц':
+                if datestamp > datetime.date((datetime.now() - timedelta(days=31))):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
+            else:
+                if datestamp == datetime.date(datetime.now()):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=data['text'])
 
 def sausage(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='https://media.giphy.com/media/JVqeFxl3Qo8/giphy.gif')
@@ -90,7 +106,7 @@ def main():
 
     # Add commands
     dp.add_handler(CommandHandler('хуй', xyu))
-    dp.add_handler(CommandHandler('пиши', record))
+    dp.add_handler(CommandHandler('запомни', record))
     dp.add_handler(CommandHandler('чокаво', digest))
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('сосисочки', sausage))
