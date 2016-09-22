@@ -23,9 +23,9 @@ today = today.strftime("%Y-%m-%d")
 yesterday = datetime.now() - timedelta(days=1)
 yesterday = yesterday.strftime("%Y-%m-%d")
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG, filename=log_file)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
+logger.addHandler(logging.FileHandler(log_file))
 
 def xyu(bot, update):
 	bot.sendMessage(chat_id=update.message.chat_id, text="Пизда!")	
@@ -101,9 +101,15 @@ def main():
     dp.add_error_handler(error)
 
     # Daemonize
-    with daemon.DaemonContext():
+    with daemon.DaemonContext(
+            files_preserve= [
+                logging.FileHandler(log_file),
+            ],
+    ):
+        logger.debug("Start daemon")
         updater.start_polling()
         updater.idle()
+        logger.debug("Stop daemon")
 
 if __name__ == '__main__':
     main()
