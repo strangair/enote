@@ -41,7 +41,6 @@ def help(bot, update):
 	""")
 
 def record(bot, update):
-
     message = update.message.text
     message = message.split(' ', 1)[1]
 
