@@ -98,8 +98,6 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-    dp.add_error_handler(error)
-
     # Daemonize
     with daemon.DaemonContext(
             files_preserve= [
@@ -107,6 +105,7 @@ def main():
             ],
     ):
         logger.addHandler(logging.FileHandler(log_file))
+        dp.add_error_handler(error)
         logger.debug("Start daemon")
         updater.start_polling()
         updater.idle()
