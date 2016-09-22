@@ -21,8 +21,6 @@ log_file = '/home/ec2-user/enote/enote.log'
 
 today = datetime.now()
 today = today.strftime("%Y-%m-%d")
-yesterday = datetime.now() - timedelta(days=1)
-yesterday = yesterday.strftime("%Y-%m-%d")
 
 # Set logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
