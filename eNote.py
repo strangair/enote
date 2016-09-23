@@ -131,11 +131,10 @@ if __name__ == '__main__':
         print str(err)
         sys.exit(2)
 
+    mode = "standalone"
     for o in opts:
         if o in ("-d", "--daemon"):
             mode = "daemon"
-        else:
-            mode = "standalone"
 
     if mode == "daemon":
         with daemon.DaemonContext(
