@@ -8,7 +8,7 @@ import json
 import daemon, time
 from datetime import datetime, timedelta
 from uuid import uuid4
-import re
+import getopt, sys
 
 # Set encoding
 import sys
@@ -101,6 +101,7 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def main():
+
     updater = Updater(token='283098184:AAEztJC92M9wczX0WyXd1vuHuF7uM3ObeuU')
 
     dp = updater.dispatcher
@@ -115,18 +116,33 @@ def main():
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
-    # Daemonize
-    with daemon.DaemonContext(
-            files_preserve= [
-                logging.FileHandler(log_file),
-            ],
-    ):
-        logger.addHandler(logging.FileHandler(log_file))
-        dp.add_error_handler(error)
-        logger.debug("Start daemon")
-        updater.start_polling()
-        updater.idle()
-        logger.debug("Stop daemon")
+    logger.addHandler(logging.FileHandler(log_file))
+    dp.add_error_handler(error)
+    logger.debug("Start daemon")
+    updater.start_polling()
+    updater.idle()
+    logger.debug("Stop daemon")
 
 if __name__ == '__main__':
-    main()
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "-hd", ["help", "daemon"])
+    except getopt.GetoptError as err:
+        print str(err)
+        sys.exit(2)
+
+    for o in opts:
+        if o in ("-d", "--daemon"):
+            mode = "daemon"
+        else:
+            mode = "standalone"
+
+    if mode == "daemon":
+        with daemon.DaemonContext(
+                files_preserve=[
+                    logging.FileHandler(log_file),
+                ]
+        ):
+            main()
+    else:
+        main()
