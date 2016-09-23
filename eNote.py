@@ -8,7 +8,7 @@ import json
 import daemon, time
 from datetime import datetime, timedelta
 from uuid import uuid4
-import getopt, sys
+import getopt
 
 # Set encoding
 import sys
@@ -131,8 +131,8 @@ if __name__ == '__main__':
         print str(err)
         sys.exit(2)
 
-    mode = "standalone"
-    for o in opts:
+    mode = "foreground"
+    for o, a in opts:
         if o in ("-d", "--daemon"):
             mode = "daemon"
 
