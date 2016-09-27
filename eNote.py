@@ -94,12 +94,13 @@ def vkontakte(bot, update):
     rec = api.wall.get(domain='apocalypse_hunters', count=1)
 #    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
 
-    message = []
-    message.append(datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d'))
-    message.append(rec[1]['attachments'][0]['link']['description'])
-    message.append(rec[1]['attachments'][0]['link']['url'])
+    message = 'Время:\t\t' + datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
+        'Описание:\t\t' + rec[1]['attachments'][0]['link']['description'] + '\n' + \
+        'Линк:\t\t' + rec[1]['attachments'][0]['link']['url']
 
     bot.sendMessage(chat_id=update.message.chat_id, text=message)
+
+
     # Link rec[1]['attachments'][0]['link']['url']
     # Description rec[1]['attachments'][0]['link']['description']
     # Time datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d')
