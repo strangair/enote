@@ -56,7 +56,7 @@ def record(bot, update):
     f.close()
 
 def digest(bot, update):
-    command = update.message.textmessage = update.message.text
+    command = update.message.text
     try:
         command = command.split(' ', 1)[1]
         command = command.split(' ', 1)[0]
@@ -89,17 +89,26 @@ def carrot(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='http://i.imgur.com/KwxaJWq.gif')
 
 def vkontakte(bot, update):
+
+    count = update.message.text
+    try:
+        count = command.split(' ', 1)[1]
+        count = int(command.split(' ', 1)[0])
+    except IndexError:
+        count = 1
+
     session = vk.AuthSession(app_id='5645196')
     api = vk.API(session)
-    rec = api.wall.get(domain='apocalypse_hunters', count=1)
+    rec = api.wall.get(domain='apocalypse_hunters', count=count)
+
 #    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
-
-    message = 'Время:\t\t' + datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
-        'Описание:\t\t' + rec[1]['attachments'][0]['link']['description'] + '\n' + \
-        'Линк:\t\t' + rec[1]['attachments'][0]['link']['url']
-
-    bot.sendMessage(chat_id=update.message.chat_id, text=message)
-
+#    message = 'Время:\t\t' + datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
+#        'Описание:\t\t' + rec[1]['attachments'][0]['link']['description'] + '\n' + \
+#        'Линк:\t\t' + rec[1]['attachments'][0]['link']['url']
+    for x in range(1, len(rec)):
+        message = datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
+            rec[1]['attachments'][0]['link']['title'] + '\n' + rec[1]['attachments'][0]['link']['url']
+        bot.sendMessage(chat_id=update.message.chat_id, text=message)
 
     # Link rec[1]['attachments'][0]['link']['url']
     # Description rec[1]['attachments'][0]['link']['description']
