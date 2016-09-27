@@ -92,8 +92,8 @@ def vkontakte(bot, update):
 
     count = update.message.text
     try:
-        count = command.split(' ', 1)[1]
-        count = int(command.split(' ', 1)[0])
+        count = count.split(' ', 1)[1]
+        count = int(count.split(' ', 1)[0])
     except IndexError:
         count = 1
 
