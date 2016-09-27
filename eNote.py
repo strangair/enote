@@ -92,7 +92,21 @@ def vkontakte(bot, update):
     session = vk.AuthSession(app_id='5645196')
     api = vk.API(session)
     rec = api.wall.get(domain='apocalypse_hunters', count=1)
-    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
+#    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
+
+    message = []
+    message.append(datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d'))
+    message.append(rec[1]['attachments'][0]['link']['description'])
+    message.append(rec[1]['attachments'][0]['link']['url'])
+
+    bot.sendMessage(chat_id=update.message.chat_id, text=message)
+    # Link rec[1]['attachments'][0]['link']['url']
+    # Description rec[1]['attachments'][0]['link']['description']
+    # Time datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d')
+
+
+
+
 
 def inlinequery(bot, update):
     query = update.inline_query.query
