@@ -9,6 +9,7 @@ import daemon, time
 from datetime import datetime, timedelta
 from uuid import uuid4
 import getopt
+import vk
 
 # Set encoding
 import sys
@@ -87,6 +88,12 @@ def sausage(bot, update):
 def carrot(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='http://i.imgur.com/KwxaJWq.gif')
 
+def vkontakte(bot, update):
+    session = vk.AuthSession(app_id='5645196')
+    api = vk.API(session)
+    rec = api.wall.get(domain='apocalypse_hunters', count=1)
+    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
+
 def inlinequery(bot, update):
     query = update.inline_query.query
     results = list()
@@ -113,6 +120,7 @@ def main():
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('сосисочки', sausage))
     dp.add_handler(CommandHandler('морква', carrot))
+    dp.add_handler(CommandHandler('вконтач', vkontakte))
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
