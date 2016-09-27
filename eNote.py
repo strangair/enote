@@ -106,8 +106,8 @@ def vkontakte(bot, update):
 #        'Описание:\t\t' + rec[1]['attachments'][0]['link']['description'] + '\n' + \
 #        'Линк:\t\t' + rec[1]['attachments'][0]['link']['url']
     for x in range(1, len(rec)):
-        message = datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
-            rec[1]['attachments'][0]['link']['title'] + '\n' + rec[1]['attachments'][0]['link']['url']
+        message = datetime.fromtimestamp(rec[x]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
+            rec[x]['attachments'][0]['link']['title'] + '\n' + rec[x]['attachments'][0]['link']['url']
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
 
     # Link rec[1]['attachments'][0]['link']['url']
