@@ -39,7 +39,7 @@ def help(bot, update):
 	/запомни <text>                         Запись текста в буфер
 	/чокаво <вчера>/<неделя>/<месяц>        Чтение текста из буфера
 	/вконтач <n>                            N последних записей из Охотников Апокалипсиса
-	/инста username n                       N записей инстаграма username
+	/инста username <n>                       N записей инстаграма username
 	/сосисочки                              Сосисочки
 	/морква                                 Морква
 	""")
@@ -116,10 +116,15 @@ def instagram (bot, update):
     try:
         command = command.split(' ', 1)[1]
         url = command.split(' ', 1)[0]
+    except IndexError:
+        bot.sendMessage(chat_id=update.message.chat_id, text="No username specified\nUsage: /инста username <n>")
+        return None
+    
+    try:
         command = command.split(' ', 1)[1]
         num = int(command.split(' ', 1)[0])
     except IndexError:
-        bot.sendMessage(chat_id=update.message.chat_id, text="No username specified\nUsage: /инста username n")
+        num = 1
         return None
 
     if num > 10:
