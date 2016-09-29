@@ -130,7 +130,7 @@ def instagram (bot, update):
     res = conn.getresponse()
     data = json.loads(res.read())
 
-    for x in range(0, len(data['items'])):
+    for x in range(0, num):
         bot.sendMessage(chat_id=update.message.chat_id, text=data['items'][x]['link'])
 
 def inlinequery(bot, update):
