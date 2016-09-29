@@ -119,13 +119,12 @@ def instagram (bot, update):
     except IndexError:
         bot.sendMessage(chat_id=update.message.chat_id, text="No username specified\nUsage: /инста username <n>")
         return None
-    
+
     try:
         command = command.split(' ', 1)[1]
         num = int(command.split(' ', 1)[0])
     except IndexError:
         num = 1
-        return None
 
     if num > 10:
         num = 10
