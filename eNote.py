@@ -117,7 +117,7 @@ def instagram (bot, update):
         command = command.split(' ', 1)[0]
     except IndexError:
         bot.sendMessage(chat_id=update.message.chat_id, text="No username specified")
-        break
+        return None
 
     url = "/" + command + "/media/"
     # https: // www.instagram.com / varnavsky / media /
