@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 import getopt
 import vk
+import httplib
 
 # Set encoding
 import sys
@@ -85,7 +86,6 @@ def digest(bot, update):
 def sausage(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='https://media.giphy.com/media/JVqeFxl3Qo8/giphy.gif')
 
-
 def carrot(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document='http://i.imgur.com/KwxaJWq.gif')
 
@@ -98,26 +98,35 @@ def vkontakte(bot, update):
     except IndexError:
         count = 1
 
+    if count > 20:
+        count = 20
+
     session = vk.AuthSession(app_id='5645196')
     api = vk.API(session)
     rec = api.wall.get(domain='apocalypse_hunters', count=count)
 
-#    bot.sendMessage(chat_id=update.message.chat_id, text=rec)
-#    message = 'Время:\t\t' + datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
-#        'Описание:\t\t' + rec[1]['attachments'][0]['link']['description'] + '\n' + \
-#        'Линк:\t\t' + rec[1]['attachments'][0]['link']['url']
     for x in range(1, len(rec)):
         message = datetime.fromtimestamp(rec[x]['date']).strftime('%H:%M:%S %Y-%m-%d') + '\n' + \
             rec[x]['attachments'][0]['link']['title'] + '\n' + rec[x]['attachments'][0]['link']['url']
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
 
-    # Link rec[1]['attachments'][0]['link']['url']
-    # Description rec[1]['attachments'][0]['link']['description']
-    # Time datetime.fromtimestamp(rec[1]['date']).strftime('%H:%M:%S %Y-%m-%d')
+def instagram (bot, update):
+    command = update.message.text
+    try:
+        command = command.split(' ', 1)[1]
+        command = command.split(' ', 1)[0]
+    except IndexError:
+        bot.sendMessage(chat_id=update.message.chat_id, text="No username specified")
+        break
 
+    url = "/" + command + "/media/"
+    # https: // www.instagram.com / varnavsky / media /
+    conn = httplib.HTTPSConnection("www.instagram.com")
+    conn.request("GET", url)
+    res = conn.getresponse()
 
-
-
+    data = json.loads(res.read())
+    bot.sendMessage(chat_id=update.message.chat_id, text=data['items'][0]['link'])
 
 def inlinequery(bot, update):
     query = update.inline_query.query
@@ -146,15 +155,14 @@ def main():
     dp.add_handler(CommandHandler('сосисочки', sausage))
     dp.add_handler(CommandHandler('морква', carrot))
     dp.add_handler(CommandHandler('вконтач', vkontakte))
+    dp.add_handler(CommandHandler('инста', instagram))
 
     dp.add_handler(InlineQueryHandler(inlinequery))
 
     logger.addHandler(logging.FileHandler(log_file))
     dp.add_error_handler(error)
-    logger.debug("Start daemon")
     updater.start_polling()
     updater.idle()
-    logger.debug("Stop daemon")
 
 if __name__ == '__main__':
 
