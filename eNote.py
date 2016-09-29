@@ -114,19 +114,24 @@ def instagram (bot, update):
     command = update.message.text
     try:
         command = command.split(' ', 1)[1]
-        command = command.split(' ', 1)[0]
+        url = command.split(' ', 1)[0]
+        command = command.split(' ', 1)[1]
+        num = int(command.split(' ', 1)[0])
     except IndexError:
         bot.sendMessage(chat_id=update.message.chat_id, text="No username specified")
         return None
 
-    url = "/" + command + "/media/"
-    # https: // www.instagram.com / varnavsky / media /
+    if num > 10:
+        num = 10
+
+    url = "/" + url + "/media/"
     conn = httplib.HTTPSConnection("www.instagram.com")
     conn.request("GET", url)
     res = conn.getresponse()
-
     data = json.loads(res.read())
-    bot.sendMessage(chat_id=update.message.chat_id, text=data['items'][0]['link'])
+
+    for x in range(0, len(data['items'])):
+        bot.sendMessage(chat_id=update.message.chat_id, text=data['items'][x]['link'])
 
 def inlinequery(bot, update):
     query = update.inline_query.query
